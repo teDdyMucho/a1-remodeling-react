@@ -13,7 +13,6 @@ export default function Home() {
     'https://static.wixstatic.com/media/6b5032_f7a5a5f5a49b4c05815de9fdd42cd956~mv2.jpg/v1/fill/w_1010,h_673,q_85,usm_0.66_1.00_0.01/6b5032_f7a5a5f5a49b4c05815de9fdd42cd956~mv2.jpg',
     'https://static.wixstatic.com/media/6b5032_851a3a52b0234104b2a2fe0531b314b9~mv2.jpg/v1/fill/w_1010,h_917,q_85,usm_0.66_1.00_0.01/6b5032_851a3a52b0234104b2a2fe0531b314b9~mv2.jpg',
     'https://static.wixstatic.com/media/6b5032_d870bfa869264a14a545258a13fcbe7f~mv2.jpg/v1/fill/w_1010,h_745,q_85,usm_0.66_1.00_0.01/6b5032_d870bfa869264a14a545258a13fcbe7f~mv2.jpg',
-    'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop'
   ];
 
   useEffect(() => {
@@ -226,7 +225,7 @@ export default function Home() {
 
       <div className="carousel-section reveal-section" id="carousel">
         <div className="carousel-header">
-          <h3>GALLERY</h3>
+          <h3>Professional Services</h3>
           <span>AUTOMATIC SCROLL · PAUSE ON HOVER</span>
         </div>
         <div className="carousel-container">

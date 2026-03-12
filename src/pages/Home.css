@@ -79,7 +79,7 @@
     letter-spacing: 0.04em;
     font-size: 0.8rem;
     font-weight: 500;
-    color: #2c2c2c;
+    color: #1A2B4A;
     background-color: white;
     position: sticky;
     top: 0;
@@ -114,7 +114,7 @@
     font-size: 1.1rem;
     font-weight: 500;
     letter-spacing: 0.15em;
-    color: #1a1a1a;
+    color: #1A2B4A;
     cursor: pointer;
 }
 
@@ -146,7 +146,7 @@
     font-size: clamp(3.8rem, 12vw, 7rem);
     font-weight: 700;
     line-height: 0.95;
-    color: #000000;
+    color: #1A2B4A;
     letter-spacing: -0.02em;
     text-transform: uppercase;
     margin-bottom: 0.5rem;
@@ -155,7 +155,7 @@
 .hero-sub {
     font-size: 2rem;
     font-weight: 320;
-    color: #2e2e2e;
+    color: #1A2B4A;
     margin-top: 0.2rem;
 }
 
@@ -164,14 +164,14 @@
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: #8a8a8a;
+    color: #C4623A;
     margin-top: 1rem;
 }
 
 .hero-right {
     text-align: right;
     font-weight: 400;
-    color: #3a3a3a;
+    color: #D4A853;
     font-size: 1rem;
     line-height: 1.6;
     border-left: 2px solid #c2c2c2;
@@ -180,7 +180,7 @@
 
 .hero-right .license {
     font-weight: 600;
-    color: #000;
+    color: #D4A853;
     display: inline-flex;
     align-items: center;
     gap: 0.2rem;
@@ -196,8 +196,8 @@
 .btn-quote {
     display: inline-block;
     background: transparent;
-    border: 2px solid #1a1a1a;
-    color: #1a1a1a;
+    border: 2px solid #1A2B4A;
+    color: #1A2B4A;
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.15em;
@@ -207,14 +207,28 @@
     transition: all 0.25s ease;
     cursor: pointer;
     margin-top: 0.5rem;
+    /* floating animation */
+    animation: float 4s ease-in-out infinite;
 }
-
 .btn-quote:hover {
-    background: #1a1a1a;
+    background: #1A2B4A;
     color: #ffffff;
-    border-color: #1a1a1a;
+    border-color: #1A2B4A;
+    animation: none; /* pause floating on hover for better interaction */
+    transform: translateY(0);
 }
-
+/* floating keyframes */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
 .quote-link {
     color: inherit;
     text-decoration: none;
@@ -229,10 +243,11 @@
 
 .curve-carousel {
     width: 100%;
-    height: 100vh;
+    height: 80vh;
     overflow: hidden;
     margin: 2rem 0 1rem;
     position: relative;
+    padding: 50px
 }
 
 .carousel-slides {
@@ -246,8 +261,8 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    clip-path: ellipse(120% 75% at 50% 100%);
+    /* height: 100%; */
+    /* clip-path: ellipse(120% 75% at 50% 100%); */
     object-fit: cover;
     object-position: center 50%;
     opacity: 0;
@@ -869,7 +884,7 @@
 .years-counter {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: #D4A853;
     display: inline-block;
     margin-left: 0.3rem;
 }
