@@ -6,17 +6,11 @@ import Footer from '../components/Footer';
 
 export default function Home() {
   const [yearsCount, setYearsCount] = useState(0);
-  const [activeProduct, setActiveProduct] = useState(0);
 
   const videoFloatRef  = useRef<HTMLDivElement>(null);
   const videoLabelRef  = useRef<HTMLDivElement>(null);
   const videoSlotRef   = useRef<HTMLDivElement>(null);
   const videoTargetRef = useRef<HTMLDivElement>(null);
-
-  const greenSectionRef = useRef<HTMLElement>(null);
-  const greenHeaderRef  = useRef<HTMLDivElement>(null);
-  const imgRefs         = useRef<(HTMLDivElement | null)[]>([]);
-  const cardRefs        = useRef<(HTMLDivElement | null)[]>([]);
 
   const PRODUCTS = [
     {
@@ -96,57 +90,23 @@ export default function Home() {
     };
   }, []);
 
-  // Green products — header drifts to top-left, products cross-fade vertically
+  // Green products — simple scroll-triggered animations
   useEffect(() => {
-    const section  = greenSectionRef.current;
-    const headerEl = greenHeaderRef.current;
-    if (!section || !headerEl) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.2, rootMargin: '0px 0px -50px 0px' }
+    );
 
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-    const ease = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+    const greenCards = document.querySelectorAll('.green-product-row');
+    greenCards.forEach((card) => observer.observe(card));
 
-    function update() {
-      const scrollable = section!.offsetHeight - window.innerHeight;
-      const scrolled   = -section!.getBoundingClientRect().top;
-      const raw        = Math.max(0, Math.min(1, scrolled / scrollable));
-
-      // Header: starts at ~38vh centered, moves to top-left almost immediately
-      const hp       = Math.min(1, ease(raw / 0.08));
-      const topStart = window.innerHeight * 0.38;
-      headerEl!.style.top       = lerp(topStart, 24, hp) + 'px';
-      headerEl!.style.left      = lerp(50, 5, hp) + '%';
-      headerEl!.style.transform = `translateX(${lerp(-50, 0, hp)}%) scale(${lerp(1, 0.75, hp)})`;
-
-      // Products: vertical cross-fade
-      const slidePos = raw * (PRODUCTS.length - 1);
-      setActiveProduct(Math.round(slidePos));
-
-      PRODUCTS.forEach((_, i) => {
-        const offset  = i - slidePos;
-        const opacity = Math.max(0, 1 - Math.abs(offset) * 2);
-        const imgEl   = imgRefs.current[i];
-        const cardEl  = cardRefs.current[i];
-
-        if (imgEl) {
-          imgEl.style.transform = `translateY(${offset * 60}px)`;
-          imgEl.style.opacity   = String(opacity);
-        }
-        if (cardEl) {
-          cardEl.style.transform     = `translateY(${offset * 40}px)`;
-          cardEl.style.opacity       = String(opacity);
-          cardEl.style.pointerEvents = Math.abs(offset) < 0.4 ? 'auto' : 'none';
-        }
-      });
-    }
-
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update, { passive: true });
-    const t = setTimeout(update, 60);
-    return () => {
-      window.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-      clearTimeout(t);
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -262,48 +222,27 @@ export default function Home() {
       </section>
 
       {/* ── GREEN PRODUCTS ── */}
-      <section className="green-section" id="green-products" ref={greenSectionRef}>
-        <div className="green-sticky">
+      <section className="green-section" id="green-products">
+        <div className="green-top-header anim-item anim-d1">
+          <div className="green-eyebrow-label">Our Products</div>
+          <h2 className="green-heading">Our Green Products</h2>
+          <div className="green-divider"></div>
+        </div>
 
-          {/* Header — starts centered at ~38vh, JS drives it to top-left */}
-          <div className="green-top-header" ref={greenHeaderRef}>
-            <div className="green-eyebrow-label">Our Products</div>
-            <h2 className="green-heading">Our Green Products</h2>
-            <div className="green-divider"></div>
-          </div>
-
-          {/* Two-column product body */}
-          <div className="green-body">
-
-            {/* Left — cards, JS vertical transition */}
-            <div className="green-info-col">
-              <div className="green-cards-wrap">
-                {PRODUCTS.map((p, i) => (
-                  <div key={i} ref={el => { cardRefs.current[i] = el; }} className="green-card">
-                    <div className="green-card-number">0{i + 1}</div>
-                    <h3 className="green-card-title">{p.label}</h3>
-                    <div className="green-card-warranty">{p.warranty}</div>
-                    <p className="green-card-desc">{p.desc}</p>
-                  </div>
-                ))}
+        <div className="green-products-list">
+          {PRODUCTS.map((p, i) => (
+            <div key={i} className="green-product-row anim-item">
+              <div className="green-card">
+                <div className="green-card-number">0{i + 1}</div>
+                <h3 className="green-card-title">{p.label}</h3>
+                <div className="green-card-warranty">{p.warranty}</div>
+                <p className="green-card-desc">{p.desc}</p>
               </div>
-              <div className="green-dots">
-                {PRODUCTS.map((_, i) => (
-                  <span key={i} className={`green-dot${i === activeProduct ? ' green-dot-active' : ''}`} />
-                ))}
+              <div className="green-product-img">
+                <img src={p.src} alt={p.label} />
               </div>
             </div>
-
-            {/* Right — images, JS vertical transition */}
-            <div className="green-img-panel">
-              {PRODUCTS.map((p, i) => (
-                <div key={i} ref={el => { imgRefs.current[i] = el; }} className="green-img-slide">
-                  <img src={p.src} alt={p.label} />
-                </div>
-              ))}
-            </div>
-
-          </div>
+          ))}
         </div>
       </section>
 
