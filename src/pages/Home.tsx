@@ -5,6 +5,7 @@ import IntroVideo from '../components/IntroVideo'
 import HeroSlider from '../components/HeroSlider'
 import ContactBar from '../components/ContactBar'
 import BookNowPanel from '../components/BookNowPanel'
+import SideForm from '../components/SideForm'
 
 export default function Home() {
   const [introDone, setIntroDone] = useState(false)
@@ -65,16 +66,20 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Section 2 — slides over section 1 */}
+      {/* Section 2 — slides over section 1, sticks below navbar */}
       <div
         style={{
-          position: 'relative',
+          position: 'sticky',
+          top: '64px',
           zIndex: 20,
           backgroundColor: '#000000',
-          minHeight: '100vh',
+          height: 'calc(100vh - 64px)',
           borderRadius: '16px 16px 0 0',
+          overflow: 'hidden',
         }}
       />
+
+      <SideForm visible={navInverted} />
 
       <BookNowPanel open={bookNowOpen} onClose={() => setBookNowOpen(false)} />
 
