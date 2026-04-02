@@ -29,50 +29,47 @@ export default function IntroVideo({ onEnd }: Props) {
     const video = videoRef.current
     if (!video) return
 
+    const v = video  // non-null alias for use inside nested functions
     const remPx     = parseFloat(getComputedStyle(document.documentElement).fontSize)
     const topOffset = 4.75 * remPx // 4rem navbar + 0.75rem gap
 
     function animate() {
-      if (!video.duration || video.videoWidth === 0) {
-        video.style.transform = 'none'
+      if (!v.duration || v.videoWidth === 0) {
+        v.style.transform = 'none'
         rafRef.current = requestAnimationFrame(animate)
         return
       }
 
-      const aspectRatio          = video.videoWidth / video.videoHeight
+      const aspectRatio          = v.videoWidth / v.videoHeight
       const availableHeight      = window.innerHeight - topOffset
       const videoHeightFullWidth = window.innerWidth / aspectRatio
       const isWide               = videoHeightFullWidth > availableHeight
-      const t                    = video.currentTime
+      const t                    = v.currentTime
 
       if (isWide) {
-        // ── Wide screen: scale video so its height fits the available area ──
-        // transform-origin: top center keeps the top edge fixed and centres
-        // the video horizontally as it scales.
         const fittedScale = availableHeight / videoHeightFullWidth
-        video.style.transformOrigin = 'top center'
+        v.style.transformOrigin = 'top center'
 
         if (t <= PHASE1_WIDE) {
-          video.style.transform = `scale(${fittedScale})`
+          v.style.transform = `scale(${fittedScale})`
         } else if (t >= PHASE2_END) {
-          video.style.transform = 'none'
+          v.style.transform = 'none'
         } else {
           const progress = (t - PHASE1_WIDE) / (PHASE2_END - PHASE1_WIDE)
           const scale    = fittedScale + (1 - fittedScale) * progress
-          video.style.transform = `scale(${scale})`
+          v.style.transform = `scale(${scale})`
         }
       } else {
-        // ── Portrait / normal screen: shift video so its centre is at 50vh ──
         const centerOffset = (window.innerHeight - videoHeightFullWidth) / 2 - topOffset
-        video.style.transformOrigin = 'top center'
+        v.style.transformOrigin = 'top center'
 
         if (t <= PHASE1_PORTRAIT) {
-          video.style.transform = `translateY(${centerOffset}px)`
+          v.style.transform = `translateY(${centerOffset}px)`
         } else if (t >= PHASE2_END) {
-          video.style.transform = 'none'
+          v.style.transform = 'none'
         } else {
           const progress = (t - PHASE1_PORTRAIT) / (PHASE2_END - PHASE1_PORTRAIT)
-          video.style.transform = `translateY(${centerOffset * (1 - progress)}px)`
+          v.style.transform = `translateY(${centerOffset * (1 - progress)}px)`
         }
       }
 

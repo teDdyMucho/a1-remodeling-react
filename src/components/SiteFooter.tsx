@@ -4,11 +4,13 @@ interface Props {
   entered: boolean
   onHome?: () => void
   onAbout?: () => void
+  onProducts?: () => void
+  onOurWork?: () => void
   onContact?: () => void
   onBookNow?: () => void
 }
 
-export default function SiteFooter({ entered, onHome, onAbout, onContact, onBookNow }: Props) {
+export default function SiteFooter({ entered, onHome, onAbout, onProducts, onOurWork, onContact, onBookNow }: Props) {
   const linkStyle: React.CSSProperties = {
     fontFamily: "'Poppins', sans-serif", fontWeight: 400,
     fontSize: 'min(1.1vw, 1.96vh)', color: 'rgba(255,255,255,0.7)',
@@ -59,7 +61,7 @@ export default function SiteFooter({ entered, onHome, onAbout, onContact, onBook
         {/* Newsletter */}
         <div>
           <p style={{
-            fontFamily: "'HelveticaLTPro-Bold', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+            fontFamily: "'helvetica-lt-pro', 'Helvetica Neue', Helvetica, Arial, sans-serif",
             fontWeight: 700, fontSize: 'min(3.2vw, 5.7vh)',
             color: '#ffffff', margin: '0 0 1.2rem 0',
           }}>
@@ -94,6 +96,8 @@ export default function SiteFooter({ entered, onHome, onAbout, onContact, onBook
               const handlers: Partial<Record<string, () => void>> = {
                 'Home': onHome,
                 'About us': onAbout,
+                'Products': onProducts,
+                'Our work': onOurWork,
                 'Contact': onContact,
                 'Book online': onBookNow,
               }
