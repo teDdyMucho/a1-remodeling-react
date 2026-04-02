@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { useState, useRef, useCallback } from 'react'
-import { ChevronDown } from 'lucide-react'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -146,7 +145,6 @@ export default function Navbar({ visible = true, bare = false, onBookNow, onCont
   const border = inverted ? '#333333' : '#e5e7eb'
   const text = inverted ? '#ffffff' : '#111111'
   const muted = inverted ? 'rgba(255,255,255,0.6)' : '#6b7280'
-  const hoverBg = inverted ? 'rgba(255,255,255,0.08)' : '#f9fafb'
 
   return (
     <header
