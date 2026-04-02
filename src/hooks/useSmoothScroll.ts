@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react'
 
 export function useSmoothScroll() {
-  const stateRef = useRef({ current: window.scrollY, target: window.scrollY })
+  const stateRef = useRef({ current: 0, target: 0 })
   const maxTargetRef = useRef<number | null>(null)  // when set, wheel can't push target past this
 
   const jumpTo = useCallback((y: number) => {
